@@ -1,0 +1,97 @@
+
+# Created by https://www.gitignore.io/api/macos,cocoscreator
+# Edit at https://www.gitignore.io/?templates=macos,cocoscreator
+
+### CocosCreator ###
+#/////////////////////////////////////////////////////////////////////////////
+# Cocos Creator Projects
+
+build/
+library/
+temp/
+local/
+jsb-default/
+jsb-binary/
+jsb-link/
+web-desktop/
+web-mobile/
+runtime/
+jsb/
+export/
+
+# Logs and databases
+
+*.log
+*.sql
+*.sqlite
+
+# files for debugger
+
+*.sln
+*.csproj
+*.pidb
+*.unityproj
+*.suo
+
+# OS generated files
+
+.DS_Store
+ehthumbs.db
+Thumbs.db
+
+# exvim files
+
+*UnityVS.meta
+*.err
+*.err.meta
+*.exvim
+*.exvim.meta
+*.vimentry
+*.vimentry.meta
+*.vimproject
+*.vimproject.meta
+.vimfiles.*/
+.exvim.*/
+quick_gen_project_*_autogen.bat
+quick_gen_project_*_autogen.bat.meta
+quick_gen_project_*_autogen.sh
+quick_gen_project_*_autogen.sh.meta
+.exvim.app
+
+# webstorm files
+
+.idea/
+
+# VSCode files
+
+creator.d.ts
+.vscode/
+
+### macOS ###
+# General
+.AppleDouble
+.LSOverride
+
+# Icon must end with two \r
+Icon
+
+# Thumbnails
+._*
+
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# End of https://www.gitignore.io/api/macos,cocoscreator
