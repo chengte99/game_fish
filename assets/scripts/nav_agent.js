@@ -103,6 +103,38 @@ cc.Class({
         // end
     },
 
+    position_after_time: function(dt){
+        var prev_pos = this.node.getPosition();
+        var next_step = this.next_step;
+        while(dt > 0 && next_step < this.road_data.length){
+            var now_pos = this.road_data[next_step];
+            // var dir = cc.pSub(now_pos, prev_pos);
+            // var len = cc.pLength(dir);
+
+            var dir = now_pos.sub(prev_pos);
+            var len = dir.mag();
+            var t = len / this.speed;
+
+            if(dt > t){
+                dt -= t;
+                prev_pos = now_pos;
+                next_step ++;
+            }else{
+                var vx = this.speed * dir.x / len;
+                var vy = this.speed * dir.y / len;
+
+                var sx = vx * dt;
+                var sy = vy * dt;
+
+                prev_pos.x += sx;
+                prev_pos.y += sy;
+                return prev_pos;
+            }
+        }
+
+        return this.road_data[next_step - 1];
+    },
+
     // update 组件再游戏画面每次刷新的时候调用, update
     // dt: 是距离上一次过去刷新的时间;
     update (dt) {

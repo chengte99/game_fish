@@ -10,11 +10,24 @@ cc.Class({
 
         anim_duration: 0.1,
 
+        cannon_path: "Canvas/cannon_root/fort_0",
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        var cannon = cc.find(this.cannon_path);
+        var cannon_m = cannon.getComponent("cannon");
+
+        this.node.on(cc.Node.EventType.TOUCH_START, function(e){
+            cannon_m.target = this.node;    
+        }, this);
+        
+    },
+
+    onCollisionEnter: function(other, self){
+        console.log("on collision enter...", other, self);
+    },
 
     start () {
         this.frame_anim = this.node.addComponent("frame_anim");

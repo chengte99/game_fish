@@ -47,15 +47,7 @@ cc.Class({
         var b_com = b.getComponent("bullet");
         this.bullet_root.addChild(b);
         b.setPosition(src);
-
-        // var dst = this.target.getPosition();
-        var nav_agent = this.target.getComponent("nav_agent");
-        var dst= nav_agent.get_next_point();
-
-        var dir = dst.sub(src);
-        var r = Math.atan2(dir.y, dir.x);
-        var degree = r * 180 / Math.PI;
-        b_com.shoot_to(degree);
+        b_com.shoot_to(this.target);
     },
 
     update (dt) {
