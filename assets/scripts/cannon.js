@@ -30,18 +30,22 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        this.game_scene = cc.find("Canvas").getComponent("game_scene");
+
+    },
 
     start () {
         this.frame_anim = this.node.addComponent("frame_anim");
-        this.frame_anim.sprite_frames = this.anim_sp;
-        this.frame_anim.duration = this.anim_duration;
-        // this.frame_anim.play_loop();
 
         this.now_time = 0;
     },
 
     shoot_target: function(){
+        this.frame_anim.sprite_frames = this.anim_sp;
+        this.frame_anim.duration = this.anim_duration;
+        this.frame_anim.play_once();
+
         var src = this.node.getPosition();
         var b = cc.instantiate(this.bullet_prefab);
         var b_com = b.getComponent("bullet");
@@ -51,7 +55,7 @@ cc.Class({
     },
 
     update (dt) {
-        if(this.target == null){
+        if(this.target == null || this.target.parent == null){
             return;
         }
 

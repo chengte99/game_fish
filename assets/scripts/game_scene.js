@@ -7,6 +7,22 @@ cc.Class({
             default: null,
             type: cc.Node
         },
+
+        fish_root: {
+            default: null,
+            type: cc.Node
+        },
+
+        fish_prefabs: {
+            default: [],
+            type: cc.Prefab
+        },
+
+        gold: 50000,
+        gold_label: {
+            default: null,
+            type: cc.Label
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -21,9 +37,29 @@ cc.Class({
         this.cannon_com.node.rotation = 0;
     },
 
-    start () {
+    create_fish: function(){
+        var index = Math.floor(Math.random() * this.fish_prefabs.length);
+        if(index >= this.fish_prefabs.length){
+            index = this.fish_prefabs.length - 1;
+        }
 
+        var fish = cc.instantiate(this.fish_prefabs[index]);
+        this.fish_root.addChild(fish);
+
+        this.scheduleOnce(function(){
+            this.create_fish();
+        }, Math.random() * 2 + 2);
     },
 
-    // update (dt) {},
+    start () {
+        this.gold_label.string = "" + this.gold;
+
+        this.scheduleOnce(function(){
+            this.create_fish();
+        }, Math.random() * 2 + 2);
+    },
+
+    update (dt) {
+        this.gold_label.string = "" + this.gold;
+    },
 });

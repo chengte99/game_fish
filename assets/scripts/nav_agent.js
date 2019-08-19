@@ -8,7 +8,7 @@
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
 
-var fish_map = require("fish_map");
+// var fish_map = require("fish_map");
 // 组件类,
 cc.Class({
     extends: cc.Component,
@@ -29,10 +29,12 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
-        map: {
-            type: fish_map,
-            default: null,
-        },
+        // map: {
+        //     type: fish_map,
+        //     default: null,
+        // },
+
+        map_path: "Canvas/fish_map",
 
         speed: 100,
     },
@@ -42,6 +44,9 @@ cc.Class({
     // onLoad () {},
     // start函数 组件开始运行之前，调用, 初始入口的好地方;
     start () {
+        var fish_map = cc.find(this.map_path);
+        this.map = fish_map.getComponent("fish_map");
+
         this.run_road();
     },
 
@@ -49,6 +54,9 @@ cc.Class({
         var road_set = this.map.get_road_set();
         var index = Math.random() * road_set.length;
         index = Math.floor(index);
+        if(index >= road_set.length){
+            index = road_set.length - 1;
+        }
         this.road_data = road_set[index]; // 假设从第0条;
 
         if (this.road_data.length < 2) {
@@ -56,6 +64,10 @@ cc.Class({
         }
         this.is_walking = false;
         this.node.setPosition(this.road_data[0]);
+        //設定完初始位置後在縮放正常
+        this.node.scaleX = 1;
+        this.node.scaleY = 1;
+        //end
         this.next_step = 1; // 下一个要走的路径点;
         if (this.road_data[0].x < this.road_data[this.road_data.length - 1].x) {
             this.node.scaleX = 1;
@@ -77,7 +89,10 @@ cc.Class({
     walk_to_next() {
         if (this.next_step >= this.road_data.length) {
             this.is_walking = false;
-            this.run_road();
+            //修改為超過屏幕就移除
+            // this.run_road(); 
+            this.node.removeFromParent();
+            //end
             return;
         }
 

@@ -10,13 +10,23 @@ cc.Class({
 
         anim_duration: 0.1,
 
+        boom_anim_sp: {
+            default: [],
+            type: cc.SpriteFrame
+        },
+
+        boom_anim_duration: 0.1,
+
         degree: 45,
         speed: 400,
+        demange: 2,
+        cost: 10,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.game_scene = cc.find("Canvas").getComponent("game_scene");
         this.is_shoot = false;
     },
 
@@ -44,6 +54,18 @@ cc.Class({
         this.node.rotation = 180 - (this.degree + 90);
 
         this.is_shoot = true;
+        this.game_scene.gold -= this.cost;
+    },
+
+    his_finished: function(){
+        this.node.removeFromParent();
+    },
+
+    onCollisionEnter: function(other, self){
+        // console.log("bullet hit fish ...", other, self);
+
+        this.is_shoot = false;
+        this.node.active = false;
     },
 
     start () {
@@ -66,5 +88,12 @@ cc.Class({
         this.node.x += sx;
         this.node.y += sy;
         
+        (cc.winSize.width * 0.5)
+        if(this.node.x > (cc.winSize.width * 0.5) || 
+        this.node.x < -(cc.winSize.width * 0.5) || 
+        this.node.y > (cc.winSize.height * 0.5) || 
+        this.node.y < -(cc.winSize.height * 0.5)){
+            this.node.removeFromParent();
+        }
     },
 });
