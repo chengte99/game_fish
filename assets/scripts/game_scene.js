@@ -37,6 +37,14 @@ cc.Class({
         this.cannon_com.node.rotation = 0;
     },
 
+    upgrade_cannon: function(){
+        this.cannon_com._upgrade();
+    },
+
+    downgrade_cannon: function(){
+        this.cannon_com._downgrade();
+    },
+
     create_fish: function(){
         var index = Math.floor(Math.random() * this.fish_prefabs.length);
         if(index >= this.fish_prefabs.length){

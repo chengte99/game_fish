@@ -28,11 +28,11 @@ cc.Class({
     onLoad () {
         this.game_scene = cc.find("Canvas").getComponent("game_scene");
 
-        var cannon = cc.find(this.cannon_path);
-        var cannon_m = cannon.getComponent("cannon");
+        this.cannon = cc.find(this.cannon_path);
+        this.cannon_m = this.cannon.getComponent("cannon");
 
         this.node.on(cc.Node.EventType.TOUCH_START, function(e){
-            cannon_m.target = this.node;    
+            this.cannon_m.target = this.node;    
         }, this);
 
         //因初始在中間位置，會閃一下，修改初始縮放為0，配合nav_agent 設定位置後再縮放回正常
@@ -42,9 +42,11 @@ cc.Class({
     },
 
     remove_cannon_target: function(){
-        var cannon = cc.find(this.cannon_path);
-        var cannon_m = cannon.getComponent("cannon");
-        cannon_m.target = null;   
+        if(this.cannon_m.target == this.node){
+            this.cannon_m.target = null;
+            this.cannon_m.node.rotation = 0;
+            console.log("remove_cannon_target ...");
+        }
     },
 
     fish_dead: function(bullet_com){

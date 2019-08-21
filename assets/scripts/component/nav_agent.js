@@ -90,8 +90,8 @@ cc.Class({
         if (this.next_step >= this.road_data.length) {
             this.is_walking = false;
             //修改為超過屏幕就移除
-            // this.run_road(); 
-            this.node.removeFromParent();
+            this.run_road();
+            // this.over_winsize();
             //end
             return;
         }
@@ -116,6 +116,12 @@ cc.Class({
         this.node.rotation = 180 - (degree + 90);
         // this.node.runAction(cc.rotateTo(0.5, degree));
         // end
+    },
+
+    over_winsize: function(){
+        var fish = this.node.getComponent("fish");
+        fish.remove_cannon_target();
+        this.node.removeFromParent();
     },
 
     position_after_time: function(dt){
