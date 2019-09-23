@@ -78,7 +78,7 @@ cc.Class({
         var bullet_com = other.getComponent("bullet");
         this.now_health -= bullet_com.demange;
         this.health_progress.progress = this.now_health / this.health;
-        bullet_com.his_finished();
+        bullet_com.hit_finished();
 
         if(this.now_health <= 0){
             this.fish_dead(bullet_com);

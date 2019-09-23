@@ -57,7 +57,7 @@ cc.Class({
         this.game_scene.gold -= this.cost;
     },
 
-    his_finished: function(){
+    hit_finished: function(){
         this.node.removeFromParent();
     },
 
