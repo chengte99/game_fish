@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "3d2219f4-796f-41bf-bfef-4463535c44e9",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "talkroom_send": {
+      "ver": "1.0.4",
+      "uuid": "4a59bbe3-5be9-45c9-8062-26c02088994b",
+      "rawTextureUuid": "3d2219f4-796f-41bf-bfef-4463535c44e9",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0.5,
+      "offsetY": 0,
+      "trimX": 7,
+      "trimY": 9,
+      "width": 51,
+      "height": 46,
+      "rawWidth": 64,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

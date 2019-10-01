@@ -1,3 +1,4 @@
+var proto_tools = require("proto_tools");
 /*
 1. 服務號、命令號、數據
 2. 服務號、命令號，都以兩個字節存放
@@ -31,19 +32,21 @@ function decrypt_cmd(str_or_buf){
 
 function _json_encode(stype, ctype, body){
     var cmd = {};
-    cmd[0] = stype;
-    cmd[1] = ctype;
-    cmd[2] = body;
+    cmd[0] = body;
 
     var json_str = JSON.stringify(cmd);
-    return json_str
+
+    var cmd_buf = proto_tools.encode_str_cmd(stype, ctype, json_str);
+    return cmd_buf
 }
 
-function _json_decode(str_or_buf){
-    var cmd = null;
+function _json_decode(cmd_buf){
+    var cmd = proto_tools.decode_str_cmd(cmd_buf);
+    var json_str = cmd[2];
 
     try{
-        cmd = JSON.parse(str_or_buf);
+        var body = JSON.parse(json_str);
+        cmd[2] = body[0];
     }catch(e){
         return null;
     }
@@ -61,8 +64,10 @@ function _json_decode(str_or_buf){
 //
 function encode_cmd(proto_type, stype, ctype, body){
     var str_or_buf = null;
+    var dataview;
+
     if(proto_type == proto_man.PROTO_JSON){
-        str_or_buf = _json_encode(stype, ctype, body);
+        dataview = _json_encode(stype, ctype, body);
     }else{
         var key = get_key(stype, ctype);
         if(!encoders[key]){
@@ -70,41 +75,43 @@ function encode_cmd(proto_type, stype, ctype, body){
             return null;
         }
 
-        str_or_buf = encoders[key](body);
+        // str_or_buf = encoders[key](body);
+        dataview = encoders[key](stype, ctype, body);
     }
 
-    str_or_buf = encrypt_cmd(str_or_buf);
+    str_or_buf = dataview.buffer;
+    if(str_or_buf){
+        str_or_buf = encrypt_cmd(str_or_buf);
+    }
+    
     return str_or_buf;
 }
 
 //
 function decode_cmd(proto_type, cmd_buf){
     cmd_buf = decrypt_cmd(cmd_buf);
-
-    if(cmd_buf.length < 4){
+    var dataview = new DataView(cmd_buf);
+    if(dataview.byteLength < proto_tools.header_size){
         return null;
     }
-
     var cmd = null;
+
     if(proto_type == proto_man.PROTO_JSON){
-        cmd = _json_decode(cmd_buf);
+        cmd = _json_decode(dataview);
     }else{
-        var stype = cmd_buf.readUInt16LE(0);
-        var ctype = cmd_buf.readUInt16LE(2);
+        var stype = proto_tools.read_int16(dataview, 0);
+        var ctype = proto_tools.read_int16(dataview, 2);
         var key = get_key(stype, ctype);
         if(!decoders[key]){
             log.error("decoders decode_func is empty, stype: " + stype + ", ctype: " + ctype);
             return null;
         }
 
-        cmd = decoders[key](cmd_buf);
+        // cmd = decoders[key](cmd_buf);
+        cmd = decoders[key](dataview);
     }
 
-    if(cmd){
-        return cmd;
-    }
-
-    return null;
+    return cmd;
 }
 
 var encoders = {};
