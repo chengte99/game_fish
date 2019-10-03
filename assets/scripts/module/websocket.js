@@ -19,7 +19,6 @@ var websocket = {
         }
         
         var cmd = proto_man.decode_cmd(this.proto_type, str_or_buf);
-        console.log(cmd);
         if (!cmd) {
             return;
         }
@@ -74,7 +73,7 @@ var websocket = {
     },
 }
 
-// websocket.connect("ws://127.0.0.1:6083/ws", proto_man.PROTO_JSON);
-websocket.connect("ws://127.0.0.1:6082/ws", proto_man.PROTO_BUF);
+websocket.connect("ws://127.0.0.1:6081/ws", proto_man.PROTO_JSON);
+// websocket.connect("ws://127.0.0.1:6081/ws", proto_man.PROTO_BUF);
 
 module.exports = websocket;

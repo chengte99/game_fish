@@ -73,6 +73,18 @@ function write_head_inbuf(cmd_buf, stype, ctype){
     return proto_tools.header_size;
 }
 
+function write_proto_type_inbuf(cmd_buf, proto_type){
+    write_int16(cmd_buf, 8, proto_type);
+}
+
+function write_utag_inbuf(cmd_buf, utag){
+    write_uint32(cmd_buf, 4, utag);
+}
+
+function clear_utag_inbuf(cmd_buf){
+    write_uint32(cmd_buf, 4, 0);
+}
+
 function write_str_inbuf(cmd_buf, offset, str, byte_len){
     write_int16(cmd_buf, offset, byte_len);
     offset += 2;
@@ -140,7 +152,7 @@ function decode_str_cmd(cmd_buf){
 }
 
 var proto_tools = {
-    header_size: 8, // 2 + 2 + 4
+    header_size: 10, // 2 + 2 + 4 + 2
     //源操作
     read_int8: read_int8,
     read_int16: read_int16,
@@ -162,6 +174,11 @@ var proto_tools = {
 
     //通用
     write_head_inbuf: write_head_inbuf,
+
+    write_proto_type_inbuf: write_proto_type_inbuf,
+    write_utag_inbuf: write_utag_inbuf,
+    clear_utag_inbuf: clear_utag_inbuf,
+    
     write_str_inbuf: write_str_inbuf,
     read_str_inbuf: read_str_inbuf,
 

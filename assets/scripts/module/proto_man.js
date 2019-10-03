@@ -79,6 +79,8 @@ function encode_cmd(proto_type, stype, ctype, body){
         dataview = encoders[key](stype, ctype, body);
     }
 
+    proto_tools.write_proto_type_inbuf(dataview, proto_type);
+
     str_or_buf = dataview.buffer;
     if(str_or_buf){
         str_or_buf = encrypt_cmd(str_or_buf);
