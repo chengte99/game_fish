@@ -7,7 +7,11 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-var websocket = require("websocket");
+var ws = require("websocket");
+var auth = require("auth");
+var Cmd = require("Cmd");
+var Response = require("Response");
+var ugame = require("ugame");
 
 cc.Class({
     extends: cc.Component,
@@ -32,17 +36,52 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        ws.register_serivces_handler({
+            2: this.on_recv_cmd_handler.bind(this),
+        });
+    },
 
     start () {
-        var data = {
-            uname: "大凱文",
-            upwd: "asd123",
-        };
+        // var data = {
+        //     uname: "大凱文",
+        //     upwd: "asd123",
+        // };
 
-        this.scheduleOnce(function(){
-            websocket.send_cmd(1,1, data);
-        }, 3)
+        // this.scheduleOnce(function(){
+        //     websocket.send_cmd(1,1, data);
+        // }, 3)
+    },
+
+    guest_login_return: function(ret) {
+        if(ret.status != Response.OK){
+            console.log("遊客登入失敗 ...");
+            return;
+        }
+
+        console.log("遊客登入成功 ...", ret.unick);
+        ugame.guest_login_success(ret.unick, ret.usex, ret.uface, ret.uvip, ret.guest_key);
+        // cc.director.loadScene("home_scene");
+    },
+
+    on_recv_cmd_handler: function(stype, ctype, body){
+        console.log("body = ", body);
+        switch(ctype){
+            case Cmd.Auth.GUEST_LOGIN:
+                this.guest_login_return(body);
+                break;
+            case Cmd.Auth.RELOGIN:
+                console.log("已重複登入 ...");
+                break;
+        }
+    },
+
+    on_click_quest_login: function(){
+        auth.quest_login();
+    },
+
+    on_click_weixin_login: function(){
+
     },
 
     // update (dt) {},
