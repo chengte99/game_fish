@@ -9,6 +9,8 @@ var ugame = {
     is_guest: false,
     guest_key: null,
 
+    user_game_info: null,
+
     guest_login_success: function (unick, usex, uface, uvip, guest_key) {
         this.unick = unick;
         this.usex = usex;
@@ -21,6 +23,14 @@ var ugame = {
             this.guest_key = guest_key;
             cc.sys.localStorage.setItem("guest_key", guest_key);
         }
+    },
+
+    get_game_info_success: function(uexp, uchip, udata){
+        this.user_game_info = {
+            uexp: uexp,
+            uchip: uchip,
+            udata: udata,
+        };
     },
 }
 

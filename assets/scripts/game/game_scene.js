@@ -1,3 +1,5 @@
+var ugame = require("ugame");
+var game_system = require("game_system");
 
 cc.Class({
     extends: cc.Component,
@@ -5,31 +7,35 @@ cc.Class({
     properties: {
         cannon: {
             default: null,
-            type: cc.Node
+            type: cc.Node,
         },
 
         fish_root: {
             default: null,
-            type: cc.Node
+            type: cc.Node,
         },
 
         fish_prefabs: {
             default: [],
-            type: cc.Prefab
+            type: cc.Prefab,
         },
 
         gold: 50000,
         gold_label: {
             default: null,
-            type: cc.Label
+            type: cc.Label,
         },
+
+        unick_label: {
+            default: null,
+            type: cc.Label,
+        }
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         this.cannon_com = this.cannon.getComponent("cannon");
-
     },
 
     cancel_auto_foucs: function(){

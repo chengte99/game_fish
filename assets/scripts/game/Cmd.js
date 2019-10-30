@@ -4,7 +4,11 @@ var Cmd = {
     Auth: {
         GUEST_LOGIN: 1,
         RELOGIN: 2,
-    }
+    },
+
+    GameSystem: {
+        GET_GAME_INFO: 1,
+    },
 }
 
 module.exports = Cmd;
