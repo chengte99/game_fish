@@ -33,6 +33,11 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+
+        wait_windos: {
+            type: cc.Node,
+            default: null
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -45,6 +50,7 @@ cc.Class({
     },
 
     start () {
+        this.wait_windos.active = false;
         // var data = {
         //     uname: "大凱文",
         //     upwd: "asd123",
@@ -90,7 +96,7 @@ cc.Class({
         
         console.log("獲取遊戲信息成功 ...金幣 = ", ret.uchip);
         ugame.get_game_info_success(ret.uexp, ret.uchip, ret.udata);
-        // cc.director.loadScene("home_scene");
+        // cc.director.loadScene("game_scene");
     },
 
     on_game_system_service_handler: function(stype, ctype, body){
@@ -103,6 +109,7 @@ cc.Class({
     },
 
     on_click_quest_login: function(){
+        this.wait_windos.active = true;
         auth.quest_login();
     },
 

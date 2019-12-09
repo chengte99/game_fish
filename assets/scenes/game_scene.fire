@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.7241465358882332,
-      "y": 0.7241465358882332,
+      "x": 1.3970208677813565,
+      "y": 1.3970208677813565,
       "z": 1
     },
     "_quat": {
@@ -2028,7 +2028,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 68.51,
+      "width": 49.79,
       "height": 40
     },
     "_anchorPoint": {
@@ -2071,8 +2071,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_string": "Label",
-    "_N$string": "Label",
+    "_string": "nick",
+    "_N$string": "nick",
     "_fontSize": 28,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -2113,7 +2113,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 68.51,
+      "width": 52.94,
       "height": 40
     },
     "_anchorPoint": {
@@ -2156,8 +2156,8 @@
     },
     "_enabled": true,
     "_useOriginalSize": false,
-    "_string": "Label",
-    "_N$string": "Label",
+    "_string": "gold",
+    "_N$string": "gold",
     "_fontSize": 28,
     "_lineHeight": 40,
     "_enableWrapText": true,
