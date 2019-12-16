@@ -9,6 +9,8 @@ var ugame = {
     is_guest: false,
     guest_key: null,
 
+    zid: -1,
+
     user_game_info: null,
 
     guest_login_success: function (unick, usex, uface, uvip, guest_key) {
@@ -32,6 +34,10 @@ var ugame = {
             udata: udata,
         };
     },
+
+    save_zid: function(zid){
+        this.zid = zid;
+    }
 }
 
 ugame.guest_key = cc.sys.localStorage.getItem("guest_key");

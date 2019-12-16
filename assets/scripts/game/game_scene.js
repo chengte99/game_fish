@@ -66,6 +66,8 @@ cc.Class({
     },
 
     start () {
+        this.gold = ugame.user_game_info.uchip;
+        this.unick_label.string = "" + ugame.unick;
         this.gold_label.string = "" + this.gold;
 
         this.scheduleOnce(function(){

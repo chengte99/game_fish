@@ -94,6 +94,12 @@ cc.Class({
             return;
         }
 
+        if(this.level == 1 && this.game_scene.gold < 10){
+            return;
+        }else if(this.level == 2 && this.game_scene.gold < 30){
+            return;
+        }
+
         this.now_time += dt;
         if(this.now_time >= this.shoot_duration){
             this.now_time = 0;

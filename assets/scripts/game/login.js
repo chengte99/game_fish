@@ -96,7 +96,7 @@ cc.Class({
         
         console.log("獲取遊戲信息成功 ...金幣 = ", ret.uchip);
         ugame.get_game_info_success(ret.uexp, ret.uchip, ret.udata);
-        // cc.director.loadScene("game_scene");
+        cc.director.loadScene("home_scene");
     },
 
     on_game_system_service_handler: function(stype, ctype, body){
