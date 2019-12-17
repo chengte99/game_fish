@@ -12,6 +12,12 @@ var Cmd = {
 
     FishGame: {
         ENTER_ZONE: 1,
+        USER_QUIT: 2,
+        ENTER_ROOM: 3,
+        EXIT_ROOM: 4,
+        USER_SITDOWN: 5,
+        USER_STANDUP: 6,
+        USER_ARRIVED: 7,
     }
 }
 

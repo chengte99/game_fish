@@ -71,9 +71,7 @@ cc.Class({
         this.waitConnection.active = true;
 
         ugame.save_zid(1);
-        fish_game.enter_zone(ugame.zid);
-
-        // cc.director.loadScene("game_scene");
+        cc.director.loadScene("game_scene");
     },
 
     senior_enter: function(){
@@ -81,9 +79,7 @@ cc.Class({
         this.waitConnection.active = true;
 
         ugame.save_zid(2);
-        fish_game.enter_zone(ugame.zid);
-
-        // cc.director.loadScene("game_scene");
+        cc.director.loadScene("game_scene");
     },
 
     // update (dt) {},

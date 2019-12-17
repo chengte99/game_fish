@@ -10,6 +10,8 @@ var ugame = {
     guest_key: null,
 
     zid: -1,
+    room_id: -1,
+    seat_id: -1,
 
     user_game_info: null,
 
@@ -27,11 +29,12 @@ var ugame = {
         }
     },
 
-    get_game_info_success: function(uexp, uchip, udata){
+    get_game_info_success: function(uexp, uchip, udata, uvip){
         this.user_game_info = {
             uexp: uexp,
             uchip: uchip,
             udata: udata,
+            uvip: uvip,
         };
     },
 
