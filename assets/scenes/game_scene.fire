@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 1.4705476892058733,
-      "y": 1.4705476892058733,
+      "x": 1.9839196143750322,
+      "y": 1.9839196143750322,
       "z": 1
     },
     "_quat": {
@@ -406,8 +406,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 78,
-      "height": 56
+      "width": 66,
+      "height": 72
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -416,8 +416,8 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 39,
-      "y": -28,
+      "x": 34,
+      "y": -36.5,
       "z": 0
     },
     "_scale": {
@@ -451,10 +451,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "d88b90a2-4b15-4d2d-aa18-5ab8766fef4c"
+      "__uuid__": "8b603561-e103-4796-97e7-94a8062b3b55"
     },
     "_type": 0,
-    "_sizeMode": 2,
+    "_sizeMode": 1,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -463,11 +463,9 @@
     },
     "_fillStart": 0,
     "_fillRange": 0,
-    "_isTrimmedMode": false,
+    "_isTrimmedMode": true,
     "_state": 0,
-    "_atlas": {
-      "__uuid__": "95304aa3-ed90-49b1-9ace-08dd0502d77d"
-    },
+    "_atlas": null,
     "_id": "f3UzKLcDFDM6xd3YCdx854"
   },
   {
@@ -2143,7 +2141,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": "baVvwgdmJKu6X+c9aurYWt"
   },
@@ -2228,7 +2226,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 2,
     "_N$cacheMode": 0,
     "_id": "4drArw6HNCy7jcW5TotlS8"
   },
@@ -2306,7 +2304,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
+      "__uuid__": "021b95f6-2a73-4c73-be3b-0024580b39a4"
     },
     "_type": 0,
     "_sizeMode": 0,
@@ -2405,7 +2403,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "miner",
+    "_name": "minus",
     "_objFlags": 0,
     "_parent": {
       "__id__": 38
@@ -2477,7 +2475,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
+      "__uuid__": "3f864ca2-3608-4849-822a-828bf1d6baae"
     },
     "_type": 0,
     "_sizeMode": 0,

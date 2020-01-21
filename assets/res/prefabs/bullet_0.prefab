@@ -194,10 +194,11 @@
         "__uuid__": "019bdb8b-4d48-4e8d-af28-db50b13a9146"
       }
     ],
-    "boom_anim_duration": 0.1,
+    "boom_anim_duration": 0.01,
     "degree": 45,
     "speed": 400,
     "demange": 5,
+    "cost": 10,
     "_id": ""
   },
   {

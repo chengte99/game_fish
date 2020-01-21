@@ -59,15 +59,9 @@ cc.Class({
         var nav_agent = this.node.getComponent("nav_agent");
         nav_agent.is_walking = false;
 
-        this.node.scaleX = 0.3;
-        this.node.scaleY = 0.3;
         this.health_progress.node.active = false
-        this.frame_anim.sprite_frames = bullet_com.boom_anim_sp;
-        this.frame_anim.duration = bullet_com.boom_anim_duration;
-        this.frame_anim.play_once(function(){
-            this.node.active = false;
-            this.node.removeFromParent();
-        });
+        this.node.active = false;
+        this.node.removeFromParent();
     },
 
     on_hit_from_bullet: function(other){

@@ -90,10 +90,10 @@ cc.Class({
         if (this.next_step >= this.road_data.length) {
             this.is_walking = false;
             //修改為超過屏幕就移除
-            // this.over_winsize();
+            this.over_winsize();
             //end
 
-            this.run_road();
+            // this.run_road();
             return;
         }
 
