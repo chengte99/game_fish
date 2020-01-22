@@ -181,8 +181,8 @@
     ],
     "boom_anim_duration": 0.1,
     "degree": 45,
-    "speed": 500,
-    "demange": 15,
+    "speed": 400,
+    "damage": 10,
     "cost": 30,
     "_id": ""
   },

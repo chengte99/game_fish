@@ -197,7 +197,7 @@
     "boom_anim_duration": 0.01,
     "degree": 45,
     "speed": 400,
-    "demange": 5,
+    "damage": 2,
     "cost": 10,
     "_id": ""
   },

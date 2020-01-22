@@ -1,3 +1,5 @@
+var ugame = require("ugame");
+
 var STATE = {
     ALIVE: 0,
     DEAD: 1,
@@ -49,9 +51,9 @@ cc.Class({
         }
     },
 
-    fish_dead: function(bullet_com){
+    fish_dead: function(){
         console.log("fish Dead ...");
-        this.game_scene.gold += this.health;
+        ugame.user_game_info.uchip += this.health;
 
         this.state = STATE.DEAD;
         this.remove_cannon_target();
@@ -70,17 +72,19 @@ cc.Class({
         }
 
         var bullet_com = other.getComponent("bullet");
-        this.now_health -= bullet_com.demange;
+        console.log("bullet damage ...", bullet_com.damage);
+
+        this.now_health -= bullet_com.damage;
         this.health_progress.progress = this.now_health / this.health;
         bullet_com.hit_finished();
 
         if(this.now_health <= 0){
-            this.fish_dead(bullet_com);
+            this.fish_dead();
         }
     },
 
     onCollisionEnter: function(other, self){
-        // console.log("on collision enter...", other, self);
+        console.log("on collision enter...", other, self);
 
         if(this.state == STATE.DEAD){
             return;

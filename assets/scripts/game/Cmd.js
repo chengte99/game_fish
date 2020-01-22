@@ -18,6 +18,7 @@ var Cmd = {
         USER_SITDOWN: 5,
         USER_STANDUP: 6,
         USER_ARRIVED: 7,
+        SEND_BULLET: 8,
     }
 }
 

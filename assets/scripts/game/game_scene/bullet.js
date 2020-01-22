@@ -18,9 +18,9 @@ cc.Class({
         boom_anim_duration: 0.1,
 
         degree: 45,
-        speed: 400,
-        demange: 2,
-        cost: 10,
+        // speed: 400,
+        // damage: 2,
+        // cost: 10,
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -28,6 +28,12 @@ cc.Class({
     onLoad () {
         this.game_scene = cc.find("Canvas").getComponent("game_scene");
         this.is_shoot = false;
+    },
+
+    init_content: function(body){
+        this.cost = body.cost;
+        this.damage = body.damage;
+        this.speed = body.speed;
     },
 
     shoot_to: function(target){
@@ -50,11 +56,11 @@ cc.Class({
 
         var r = Math.atan2(dir.y, dir.x);
         var degree = r * 180 / Math.PI;
-        this.degree = degree;
-        this.node.rotation = 180 - (this.degree + 90);
+        // this.degree = degree;
+        this.node.rotation = 180 - (degree + 90);
 
         this.is_shoot = true;
-        this.game_scene.gold -= this.cost;
+        // this.game_scene.gold -= this.cost;
     },
 
     hit_finished: function(){

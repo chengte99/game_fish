@@ -11,7 +11,12 @@ function quit_zone(){
     ws.send_cmd(Stype.FishGame, Cmd.FishGame.USER_QUIT, null);
 }
 
+function send_bullet(body){
+    ws.send_cmd(Stype.FishGame, Cmd.FishGame.SEND_BULLET, body);
+}
+
 module.exports = {
     enter_zone: enter_zone,
     quit_zone: quit_zone,
+    send_bullet: send_bullet,
 };

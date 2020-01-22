@@ -1,3 +1,4 @@
+var ugame = require("ugame");
 
 var shoot_anim = cc.Class({
     name: "shoot_anim",
@@ -76,7 +77,7 @@ cc.Class({
         this.node.getComponent(cc.Sprite).spriteFrame = this.idle_sp[this.level - 1];
     },
 
-    shoot_target: function(){
+    shoot_target: function(body){
         this.frame_anim.sprite_frames = this.anim_sp[this.level - 1].shoot_anim_frame;
         this.frame_anim.duration = this.anim_duration;
         this.frame_anim.play_once();
@@ -84,36 +85,30 @@ cc.Class({
         var src = this.node.getPosition();
         var b = cc.instantiate(this.bullet_prefab[this.level - 1]);
         var b_com = b.getComponent("bullet");
+        b_com.init_content(body);
+
         this.bullet_root.addChild(b);
         b.setPosition(src);
         b_com.shoot_to(this.target);
     },
 
-    update (dt) {
+    prepare_to_shoot: function(body){
+        console.log("prepare_to_shoot ...", body);
         if(this.target == null || this.target.parent == null){
             return;
         }
 
-        if(this.level == 1 && this.game_scene.gold < 10){
-            return;
-        }else if(this.level == 2 && this.game_scene.gold < 30){
-            return;
-        }
+        var dst = this.target.getPosition();
+        var src = this.node.getPosition();
+        var dir = dst.sub(src);
+        var r = Math.atan2(dir.y, dir.x);
+        var degree = r * 180 / Math.PI;
+        this.node.rotation = 180 - (degree + 90);
+        this.shoot_target(body);
+    },
 
-        this.now_time += dt;
-        if(this.now_time >= this.shoot_duration){
-            this.now_time = 0;
-            this.shoot_target();
-        }
-
-        if(this.target != null){
-            var dst = this.target.getPosition();
-            var src = this.node.getPosition();
-            var dir = dst.sub(src);
-            var r = Math.atan2(dir.y, dir.x);
-            var degree = r * 180 / Math.PI;
-            this.node.rotation = 180 - (degree + 90);
-        }
+    update (dt) {
+        
 
     },
 });

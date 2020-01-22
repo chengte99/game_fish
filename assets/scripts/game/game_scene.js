@@ -23,7 +23,6 @@ cc.Class({
             type: cc.Prefab,
         },
 
-        gold: 50000,
         gold_label: {
             default: null,
             type: cc.Label,
@@ -94,6 +93,10 @@ cc.Class({
 
         console.log("sitdown_return success, seat_id ...", ret[1]);
         ugame.seat_id = ret[1];
+
+        this.scheduleOnce(function(){
+            this.create_fish();
+        }, Math.random() * 2 + 2);
     },
 
     standup_return: function(ret){
@@ -104,6 +107,35 @@ cc.Class({
 
         console.log("standup_return success, seat_id ...", ret[1]);
         ugame.seat_id = -1;
+    },
+
+    user_arrived_return: function(ret){
+        if(ret[0] != Response.OK){
+            console.log("user_arrived_return fail ...");
+            return;
+        }
+
+        console.log("user_arrived_return success, ret ...", ret);
+    },
+
+    send_bullet_return: function(ret){
+        if(ret[0] != Response.OK){
+            console.log("send_bullet_return fail ...");
+            return;
+        }
+
+        console.log("send_bullet_return success, ret ...", ret);
+        ugame.user_game_info.uchip += ret[3];
+        this.gold_label.string = "" + ugame.user_game_info.uchip;
+
+        // 產生子彈發射
+        var bullet_body = {
+            level: ret[2],
+            cost: ret[3],
+            damage: ret[4],
+            speed: ret[5],
+        }
+        this.cannon_com.prepare_to_shoot(bullet_body);
     },
 
     on_game_service_handler: function(stype, ctype, body){
@@ -127,19 +159,24 @@ cc.Class({
             case Cmd.FishGame.USER_STANDUP:
                 this.standup_return(body);
                 break;
+            case Cmd.FishGame.USER_ARRIVED:
+                this.user_arrived_return(body);
+                break;
+            case Cmd.FishGame.SEND_BULLET:
+                this.send_bullet_return(body);
+                break;
+                    
         }
     },
 
     start () {
         fish_game.enter_zone(ugame.zid);
 
-        this.gold = ugame.user_game_info.uchip;
+        // this.gold = ugame.user_game_info.uchip;
         this.unick_label.string = "" + ugame.unick;
-        this.gold_label.string = "" + this.gold;
+        this.gold_label.string = "" + ugame.user_game_info.uchip;
 
-        this.scheduleOnce(function(){
-            this.create_fish();
-        }, Math.random() * 2 + 2);
+        this.now_time = 0;
     },
 
     on_click_quit_room: function(){
@@ -174,6 +211,23 @@ cc.Class({
     },
 
     update (dt) {
-        this.gold_label.string = "" + this.gold;
+        if(this.cannon_com.target == null){
+            return;
+        }
+
+        if(this.cannon_com.level == 1 && ugame.user_game_info.uchip < 10){
+            return;
+        }else if(this.cannon_com.level == 2 && ugame.user_game_info.uchip < 30){
+            return;
+        }
+
+        this.now_time += dt;
+        if(this.now_time >= this.cannon_com.shoot_duration){
+            this.now_time = 0;
+            fish_game.send_bullet({
+                0: ugame.seat_id,
+                1: this.cannon_com.level
+            });
+        }
     },
 });
