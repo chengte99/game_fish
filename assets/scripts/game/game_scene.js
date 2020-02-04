@@ -8,8 +8,8 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        cannon: {
-            default: null,
+        cannon_nodes: {
+            default: [],
             type: cc.Node,
         },
 
@@ -31,6 +31,11 @@ cc.Class({
         unick_label: {
             default: null,
             type: cc.Label,
+        },
+
+        player2: {
+            default: null,
+            type: cc.Node,
         }
     },
 
@@ -41,7 +46,7 @@ cc.Class({
             4: this.on_game_service_handler.bind(this),
         });
 
-        this.cannon_com = this.cannon.getComponent("cannon");
+        this.cannon_com_1 = this.cannon_nodes[0].getComponent("cannon");
     },
 
     enter_zone_return: function(status){
@@ -110,12 +115,20 @@ cc.Class({
     },
 
     user_arrived_return: function(ret){
-        if(ret[0] != Response.OK){
+        if(ret[0] < 0 || ret[0] >= 2){
             console.log("user_arrived_return fail ...");
             return;
         }
 
         console.log("user_arrived_return success, ret ...", ret);
+        
+        this.cannon_nodes[1].active = true;
+        this.player2.active = true;
+
+        this.player2_com = this.player2.getComponent("player2");
+        this.player2_com.init_info(ret);
+
+        this.cannon_com_2 = this.cannon_nodes[1].getComponent("cannon");
     },
 
     send_bullet_return: function(ret){
@@ -135,7 +148,7 @@ cc.Class({
             damage: ret[4],
             speed: ret[5],
         }
-        this.cannon_com.prepare_to_shoot(bullet_body);
+        this.cannon_com_1.prepare_to_shoot(bullet_body);
     },
 
     on_game_service_handler: function(stype, ctype, body){
@@ -184,16 +197,16 @@ cc.Class({
     },
 
     cancel_auto_foucs: function(){
-        this.cannon_com.target = null;
-        this.cannon_com.node.rotation = 0;
+        this.cannon_com_1.target = null;
+        this.cannon_com_1.node.rotation = 0;
     },
 
     upgrade_cannon: function(){
-        this.cannon_com._upgrade();
+        this.cannon_com_1._upgrade();
     },
 
     downgrade_cannon: function(){
-        this.cannon_com._downgrade();
+        this.cannon_com_1._downgrade();
     },
 
     create_fish: function(){
@@ -211,22 +224,22 @@ cc.Class({
     },
 
     update (dt) {
-        if(this.cannon_com.target == null){
+        if(this.cannon_com_1.target == null){
             return;
         }
 
-        if(this.cannon_com.level == 1 && ugame.user_game_info.uchip < 10){
+        if(this.cannon_com_1.level == 1 && ugame.user_game_info.uchip < 10){
             return;
-        }else if(this.cannon_com.level == 2 && ugame.user_game_info.uchip < 30){
+        }else if(this.cannon_com_1.level == 2 && ugame.user_game_info.uchip < 30){
             return;
         }
 
         this.now_time += dt;
-        if(this.now_time >= this.cannon_com.shoot_duration){
+        if(this.now_time >= this.cannon_com_1.shoot_duration){
             this.now_time = 0;
             fish_game.send_bullet({
                 0: ugame.seat_id,
-                1: this.cannon_com.level
+                1: this.cannon_com_1.level
             });
         }
     },

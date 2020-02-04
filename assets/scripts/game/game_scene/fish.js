@@ -87,6 +87,8 @@ cc.Class({
         console.log("on collision enter...", other, self);
 
         if(this.state == STATE.DEAD){
+            var bullet_com = other.getComponent("bullet");
+            bullet_com.hit_finished();
             return;
         }
 
