@@ -87,7 +87,7 @@ cc.Class({
             }
         }
         
-        console.log(road_curve_path);
+        // console.log(road_curve_path);
         
         var one_road = [road_curve_path[0][0]];
         
@@ -112,7 +112,7 @@ cc.Class({
             }
         }
         
-        console.log(one_road);
+        // console.log(one_road);
         this.road_data_set.push(one_road);
     }, 
 

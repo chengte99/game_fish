@@ -59,7 +59,7 @@ cc.Class({
         this.now_time = 0;
     },
 
-    _upgrade: function(){
+    upgrade: function(){
         if(this.level == 2){
             return;
         }
@@ -68,7 +68,7 @@ cc.Class({
         this.node.getComponent(cc.Sprite).spriteFrame = this.idle_sp[this.level - 1];
     },
 
-    _downgrade: function(){
+    downgrade: function(){
         if(this.level == 1){
             return;
         }
@@ -93,7 +93,7 @@ cc.Class({
     },
 
     prepare_to_shoot: function(body){
-        console.log("prepare_to_shoot ...", body);
+        // console.log("prepare_to_shoot ...", body);
         if(this.target == null || this.target.parent == null){
             return;
         }

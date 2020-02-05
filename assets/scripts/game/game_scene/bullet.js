@@ -31,6 +31,8 @@ cc.Class({
     },
 
     init_content: function(body){
+        this.sv_seat = body.sv_seat;
+        this.level = body.level;
         this.cost = body.cost;
         this.damage = body.damage;
         this.speed = body.speed;
@@ -61,6 +63,16 @@ cc.Class({
 
         this.is_shoot = true;
         // this.game_scene.gold -= this.cost;
+    },
+
+    get_bullet_info: function(){
+        return {
+            sv_seat: this.sv_seat,
+            level: this.level,
+            cost: this.cost,
+            damage: this.damage,
+            speed: this.speed
+        }
     },
 
     hit_finished: function(){

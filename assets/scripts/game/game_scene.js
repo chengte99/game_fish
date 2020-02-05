@@ -4,15 +4,13 @@ var fish_game = require("fish_game");
 var Cmd = require("Cmd");
 var Response = require("Response");
 
+var game_seat = require("game_seat");
+var cannon = require("cannon");
+
 cc.Class({
     extends: cc.Component,
 
     properties: {
-        cannon_nodes: {
-            default: [],
-            type: cc.Node,
-        },
-
         fish_root: {
             default: null,
             type: cc.Node,
@@ -23,19 +21,24 @@ cc.Class({
             type: cc.Prefab,
         },
 
-        gold_label: {
+        seat_A: {
             default: null,
-            type: cc.Label,
+            type: game_seat,
         },
 
-        unick_label: {
+        seat_B: {
             default: null,
-            type: cc.Label,
+            type: game_seat,
         },
 
-        player2: {
+        seat_A_cannon: {
             default: null,
-            type: cc.Node,
+            type: cannon,
+        },
+
+        seat_B_cannon: {
+            default: null,
+            type: cannon,
         }
     },
 
@@ -45,8 +48,6 @@ cc.Class({
         ws.register_serivces_handler({
             4: this.on_game_service_handler.bind(this),
         });
-
-        this.cannon_com_1 = this.cannon_nodes[0].getComponent("cannon");
     },
 
     enter_zone_return: function(status){
@@ -96,8 +97,20 @@ cc.Class({
             return;
         }
 
-        console.log("sitdown_return success, seat_id ...", ret[1]);
         ugame.seat_id = ret[1];
+
+        console.log("sitdown_return success ...");
+        var uinfo = {
+            sv_seat: ret[1],
+            unick: ugame.unick,
+            usex: ugame.usex,
+            uface: ugame.uface,
+            uchip: ugame.user_game_info.uchip,
+            uexp: ugame.user_game_info.uexp,
+            uvip: ugame.user_game_info.uvip,
+        }
+
+        this.seat_A.sitdown_seat(uinfo, true);
 
         this.scheduleOnce(function(){
             this.create_fish();
@@ -115,20 +128,19 @@ cc.Class({
     },
 
     user_arrived_return: function(ret){
-        if(ret[0] < 0 || ret[0] >= 2){
-            console.log("user_arrived_return fail ...");
-            return;
+        console.log("user_arrived_return success ...");
+        
+        var uinfo = {
+            sv_seat: ret[0],
+            unick: ret[1],
+            usex: ret[2],
+            uface: ret[3],
+            uchip: ret[4],
+            uexp: ret[5],
+            uvip: ret[6]
         }
 
-        console.log("user_arrived_return success, ret ...", ret);
-        
-        this.cannon_nodes[1].active = true;
-        this.player2.active = true;
-
-        this.player2_com = this.player2.getComponent("player2");
-        this.player2_com.init_info(ret);
-
-        this.cannon_com_2 = this.cannon_nodes[1].getComponent("cannon");
+        this.seat_B.sitdown_seat(uinfo, false);
     },
 
     send_bullet_return: function(ret){
@@ -137,18 +149,30 @@ cc.Class({
             return;
         }
 
-        console.log("send_bullet_return success, ret ...", ret);
-        ugame.user_game_info.uchip += ret[3];
-        this.gold_label.string = "" + ugame.user_game_info.uchip;
+        console.log("send_bullet_return success ...");
 
-        // 產生子彈發射
-        var bullet_body = {
+        var bullet_info = {
+            sv_seat: ret[1],
             level: ret[2],
             cost: ret[3],
             damage: ret[4],
             speed: ret[5],
         }
-        this.cannon_com_1.prepare_to_shoot(bullet_body);
+
+        if(bullet_info.sv_seat == ugame.seat_id){
+            // 自己發送的
+            this.seat_A.update_uchip(bullet_info.cost);
+            this.seat_A_cannon.prepare_to_shoot(bullet_info);
+        }else{
+            console.log("對手發的");
+        }
+
+        // ugame.user_game_info.uchip += ret[3];
+        // this.gold_label.string = "" + ugame.user_game_info.uchip;
+
+        // // 產生子彈發射
+        
+        // this.seat_A_cannon.prepare_to_shoot(bullet_body);
     },
 
     on_game_service_handler: function(stype, ctype, body){
@@ -185,10 +209,6 @@ cc.Class({
     start () {
         fish_game.enter_zone(ugame.zid);
 
-        // this.gold = ugame.user_game_info.uchip;
-        this.unick_label.string = "" + ugame.unick;
-        this.gold_label.string = "" + ugame.user_game_info.uchip;
-
         this.now_time = 0;
     },
 
@@ -197,16 +217,16 @@ cc.Class({
     },
 
     cancel_auto_foucs: function(){
-        this.cannon_com_1.target = null;
-        this.cannon_com_1.node.rotation = 0;
+        this.seat_A_cannon.target = null;
+        this.seat_A_cannon.node.rotation = 0;
     },
 
     upgrade_cannon: function(){
-        this.cannon_com_1._upgrade();
+        this.seat_A_cannon.upgrade();
     },
 
     downgrade_cannon: function(){
-        this.cannon_com_1._downgrade();
+        this.seat_A_cannon.downgrade();
     },
 
     create_fish: function(){
@@ -224,23 +244,26 @@ cc.Class({
     },
 
     update (dt) {
-        if(this.cannon_com_1.target == null){
+        if(this.seat_A_cannon.target == null){
             return;
         }
 
-        if(this.cannon_com_1.level == 1 && ugame.user_game_info.uchip < 10){
+        if(this.seat_A_cannon.level == 1 && ugame.user_game_info.uchip < 10){
             return;
-        }else if(this.cannon_com_1.level == 2 && ugame.user_game_info.uchip < 30){
+        }else if(this.seat_A_cannon.level == 2 && ugame.user_game_info.uchip < 30){
             return;
         }
 
         this.now_time += dt;
-        if(this.now_time >= this.cannon_com_1.shoot_duration){
+        if(this.now_time >= this.seat_A_cannon.shoot_duration){
             this.now_time = 0;
-            fish_game.send_bullet({
-                0: ugame.seat_id,
-                1: this.cannon_com_1.level
-            });
+            if(ugame.seat_id != -1){
+                console.log("send_bullet ...");
+                fish_game.send_bullet({
+                    0: ugame.seat_id,
+                    1: this.seat_A_cannon.level
+                });
+            }
         }
     },
 });

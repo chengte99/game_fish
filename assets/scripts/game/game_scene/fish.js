@@ -21,6 +21,8 @@ cc.Class({
             type: cc.ProgressBar
         },
 
+        seat_A_path: "Canvas/seat_A",
+        seat_B_path: "Canvas/seat_B",
         cannon_path: "Canvas/cannon_root/fort_0",
         health: 100,
     },
@@ -30,6 +32,7 @@ cc.Class({
     onLoad () {
         this.game_scene = cc.find("Canvas").getComponent("game_scene");
 
+        this.seat_A = cc.find(this.seat_A_path);
         this.cannon = cc.find(this.cannon_path);
         this.cannon_m = this.cannon.getComponent("cannon");
 
@@ -47,13 +50,15 @@ cc.Class({
         if(this.cannon_m.target == this.node){
             this.cannon_m.target = null;
             this.cannon_m.node.rotation = 0;
-            console.log("remove_cannon_target ...");
+            // console.log("remove_cannon_target ...");
         }
     },
 
-    fish_dead: function(){
-        console.log("fish Dead ...");
-        ugame.user_game_info.uchip += this.health;
+    fish_dead: function(bullet_info){
+        // console.log("fish Dead ...");
+        if(bullet_info.sv_seat == ugame.seat_id){
+            this.seat_A.getComponent("game_seat").update_uchip(this.health);
+        }
 
         this.state = STATE.DEAD;
         this.remove_cannon_target();
@@ -72,19 +77,20 @@ cc.Class({
         }
 
         var bullet_com = other.getComponent("bullet");
-        console.log("bullet damage ...", bullet_com.damage);
+        var bullet_info = bullet_com.get_bullet_info();
+        // console.log("bullet_info ...", bullet_info);
 
-        this.now_health -= bullet_com.damage;
+        this.now_health -= bullet_info.damage;
         this.health_progress.progress = this.now_health / this.health;
         bullet_com.hit_finished();
 
         if(this.now_health <= 0){
-            this.fish_dead();
+            this.fish_dead(bullet_info);
         }
     },
 
     onCollisionEnter: function(other, self){
-        console.log("on collision enter...", other, self);
+        // console.log("on collision enter...", other, self);
 
         if(this.state == STATE.DEAD){
             var bullet_com = other.getComponent("bullet");
