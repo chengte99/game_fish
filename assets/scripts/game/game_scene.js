@@ -123,8 +123,15 @@ cc.Class({
             return;
         }
 
-        console.log("standup_return success, seat_id ...", ret[1]);
-        ugame.seat_id = -1;
+        console.log("standup_return success ...");
+        if(ret[1] == ugame.seat_id){
+            ugame.seat_id = -1;
+            this.seat_A.standup_seat(true);
+            this.cancel_auto_foucs();
+        }else{
+            this.seat_B.standup_seat(false);
+        }
+        
     },
 
     user_arrived_return: function(ret){
@@ -221,6 +228,11 @@ cc.Class({
         this.seat_A_cannon.node.rotation = 0;
     },
 
+    reset_seat_B_cannon: function(){
+        this.seat_B_cannon.target = null;
+        this.seat_B_cannon.node.rotation = 0;
+    },
+
     upgrade_cannon: function(){
         this.seat_A_cannon.upgrade();
     },
@@ -257,13 +269,10 @@ cc.Class({
         this.now_time += dt;
         if(this.now_time >= this.seat_A_cannon.shoot_duration){
             this.now_time = 0;
-            if(ugame.seat_id != -1){
-                console.log("send_bullet ...");
-                fish_game.send_bullet({
-                    0: ugame.seat_id,
-                    1: this.seat_A_cannon.level
-                });
-            }
+            fish_game.send_bullet({
+                0: ugame.seat_id,
+                1: this.seat_A_cannon.level
+            });
         }
     },
 });

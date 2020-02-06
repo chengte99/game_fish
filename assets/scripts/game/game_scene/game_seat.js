@@ -37,6 +37,15 @@ cc.Class({
         }
     },
 
+    standup_seat: function(){
+        this.unick.string = "";
+        this.uvip.string = "LV: ";
+        
+        if(is_self){
+            this.uchip.string = "";
+        }
+    },
+
     update_uchip: function(coin){
         // console.log("update_uchip ...", coin);
         ugame.user_game_info.uchip += coin;
