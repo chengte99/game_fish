@@ -44,19 +44,29 @@ cc.Class({
     // onLoad () {},
     // start函数 组件开始运行之前，调用, 初始入口的好地方;
     start () {
+        // var fish_map = cc.find(this.map_path);
+        // this.map = fish_map.getComponent("fish_map");
+
+        // this.run_road();
+    },
+
+    prepare_run_road: function(body){
+        console.log("prepare_run_road ...");
+
         var fish_map = cc.find(this.map_path);
         this.map = fish_map.getComponent("fish_map");
 
-        this.run_road();
+        this.speed = body[2];
+        this.run_road(body[3]);
     },
 
-    run_road() {
+    run_road(index) {
         var road_set = this.map.get_road_set();
-        var index = Math.random() * road_set.length;
-        index = Math.floor(index);
-        if(index >= road_set.length){
-            index = road_set.length - 1;
-        }
+        // var index = Math.random() * road_set.length;
+        // index = Math.floor(index);
+        // if(index >= road_set.length){
+        //     index = road_set.length - 1;
+        // }
         this.road_data = road_set[index]; // 假设从第0条;
 
         if (this.road_data.length < 2) {

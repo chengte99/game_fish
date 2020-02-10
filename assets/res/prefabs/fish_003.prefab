@@ -31,13 +31,10 @@
       },
       {
         "__id__": 11
-      },
-      {
-        "__id__": 12
       }
     ],
     "_prefab": {
-      "__id__": 13
+      "__id__": 12
     },
     "_opacity": 255,
     "_color": {
@@ -248,7 +245,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "561bca74-578e-444c-94bf-42478a47b05a"
     },
     "fileId": "eb8dZT5ZdPloTsLHyZ4b66",
     "sync": false
@@ -304,7 +301,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "561bca74-578e-444c-94bf-42478a47b05a"
     },
     "fileId": "7fXYPgJCFIyK7vepr98vYJ",
     "sync": false
@@ -389,20 +386,10 @@
     "health_progress": {
       "__id__": 7
     },
+    "seat_A_path": "Canvas/seat_A",
+    "seat_B_path": "Canvas/seat_B",
     "cannon_path": "Canvas/cannon_root/fort_0",
     "health": 60,
-    "_id": ""
-  },
-  {
-    "__type__": "ed015pjiNxHlYWwHeJJJi5O",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "map_path": "Canvas/fish_map",
-    "speed": 100,
     "_id": ""
   },
   {
@@ -509,7 +496,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "561bca74-578e-444c-94bf-42478a47b05a"
     },
     "fileId": "3dWpSgMTNE2pKW+MWltuzf",
     "sync": false

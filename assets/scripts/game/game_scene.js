@@ -112,9 +112,9 @@ cc.Class({
 
         this.seat_A.sitdown_seat(uinfo, true);
 
-        this.scheduleOnce(function(){
-            this.create_fish();
-        }, Math.random() * 2 + 2);
+        // this.scheduleOnce(function(){
+        //     this.create_fish();
+        // }, Math.random() * 2 + 2);
     },
 
     standup_return: function(ret){
@@ -130,6 +130,7 @@ cc.Class({
             this.cancel_auto_foucs();
         }else{
             this.seat_B.standup_seat(false);
+            this.reset_seat_B_cannon();
         }
         
     },
@@ -173,13 +174,21 @@ cc.Class({
         }else{
             console.log("對手發的");
         }
+    },
 
-        // ugame.user_game_info.uchip += ret[3];
-        // this.gold_label.string = "" + ugame.user_game_info.uchip;
+    put_fish_return: function(body){
+        if(body[0] <= 0){
+            console.log("put_fish_return fail ...");
+            return;
+        }
 
-        // // 產生子彈發射
-        
-        // this.seat_A_cannon.prepare_to_shoot(bullet_body);
+        console.log("put_fish_return success ...", body);
+
+        var fish = cc.instantiate(this.fish_prefabs[body[0] - 1]);
+        var fish_com = fish.getComponent("fish");
+        this.fish_root.addChild(fish);
+
+        fish_com.init_data(body);
     },
 
     on_game_service_handler: function(stype, ctype, body){
@@ -209,6 +218,9 @@ cc.Class({
             case Cmd.FishGame.SEND_BULLET:
                 this.send_bullet_return(body);
                 break;
+            case Cmd.FishGame.PUT_FISH:
+                this.put_fish_return(body);
+                break;
                     
         }
     },
@@ -230,7 +242,7 @@ cc.Class({
 
     reset_seat_B_cannon: function(){
         this.seat_B_cannon.target = null;
-        this.seat_B_cannon.node.rotation = 0;
+        this.seat_B_cannon.node.rotation = 180;
     },
 
     upgrade_cannon: function(){
@@ -241,18 +253,16 @@ cc.Class({
         this.seat_A_cannon.downgrade();
     },
 
-    create_fish: function(){
-        var index = Math.floor(Math.random() * this.fish_prefabs.length);
-        if(index >= this.fish_prefabs.length){
-            index = this.fish_prefabs.length - 1;
-        }
-
-        var fish = cc.instantiate(this.fish_prefabs[index]);
+    create_fish: function(body){
+        var fish = cc.instantiate(this.fish_prefabs[body[0] - 1]);
+        var fish_com = fish.getComponent("fish");
         this.fish_root.addChild(fish);
 
-        this.scheduleOnce(function(){
-            this.create_fish();
-        }, Math.random() * 2 + 2);
+        fish_com.init_data(body);
+
+        // this.scheduleOnce(function(){
+        //     this.create_fish();
+        // }, Math.random() * 2 + 2);
     },
 
     update (dt) {

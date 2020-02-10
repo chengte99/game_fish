@@ -37,7 +37,7 @@ cc.Class({
         }
     },
 
-    standup_seat: function(){
+    standup_seat: function(is_self){
         this.unick.string = "";
         this.uvip.string = "LV: ";
         

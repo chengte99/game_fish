@@ -46,6 +46,28 @@ cc.Class({
         //end
     },
 
+    start () {
+        this.frame_anim = this.node.addComponent("frame_anim");
+        this.frame_anim.sprite_frames = this.anim_sp;
+        this.frame_anim.duration = this.anim_duration;
+        this.frame_anim.play_loop();
+
+        this.state = STATE.ALIVE;
+        this.now_health = this.health;
+        this.health_progress.progress = this.now_health / this.health;
+    },
+
+    init_data: function(body){
+        this.fish_id = body[0];
+        this.health = body[1];
+        this.speed = body[2];
+        this.road_index = body[3];
+        this.inroom_uid = body[4];
+        
+        this.nav_agent = this.node.addComponent("nav_agent");
+        this.nav_agent.prepare_run_road(body);
+    },
+
     remove_cannon_target: function(){
         if(this.cannon_m.target == this.node){
             this.cannon_m.target = null;
@@ -99,17 +121,6 @@ cc.Class({
         }
 
         this.on_hit_from_bullet(other);
-    },
-
-    start () {
-        this.frame_anim = this.node.addComponent("frame_anim");
-        this.frame_anim.sprite_frames = this.anim_sp;
-        this.frame_anim.duration = this.anim_duration;
-        this.frame_anim.play_loop();
-
-        this.state = STATE.ALIVE;
-        this.now_health = this.health;
-        this.health_progress.progress = this.now_health / this.health;
     },
 
     // update (dt) {},
