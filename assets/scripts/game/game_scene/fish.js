@@ -1,4 +1,5 @@
 var ugame = require("ugame");
+var fish_game = require("fish_game");
 
 var STATE = {
     ALIVE: 0,
@@ -37,7 +38,9 @@ cc.Class({
         this.cannon_m = this.cannon.getComponent("cannon");
 
         this.node.on(cc.Node.EventType.TOUCH_START, function(e){
-            this.cannon_m.target = this.node;    
+            if(this.game_scene.do_ready){
+                this.cannon_m.target = this.node;
+            }
         }, this);
 
         //因初始在中間位置，會閃一下，修改初始縮放為0，配合nav_agent 設定位置後再縮放回正常
@@ -77,7 +80,6 @@ cc.Class({
     },
 
     fish_dead: function(bullet_info){
-        // console.log("fish Dead ...");
         if(bullet_info.sv_seat == ugame.seat_id){
             this.seat_A.getComponent("game_seat").update_uchip(this.health);
         }
@@ -107,7 +109,17 @@ cc.Class({
         bullet_com.hit_finished();
 
         if(this.now_health <= 0){
-            this.fish_dead(bullet_info);
+            // 通知server該魚已死
+            var body = {
+                0: this.fish_id,
+                1: this.health,
+                2: this.road_index,
+                3: this.inroom_uid,
+                4: bullet_info.sv_seat
+            }
+            fish_game.recover_fish(body);
+            
+            // this.fish_dead(bullet_info);
         }
     },
 

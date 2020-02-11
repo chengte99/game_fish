@@ -185,14 +185,26 @@ cc.Class({
         console.log("put_fish_return success ...", body);
 
         var fish = cc.instantiate(this.fish_prefabs[body[0] - 1]);
-        var fish_com = fish.getComponent("fish");
-        this.fish_root.addChild(fish);
+        // 將魚node存到陣列內
+        this.fish_on_road_set[body[3]] = fish;
 
+        var fish_com = fish.getComponent("fish");
         fish_com.init_data(body);
+        this.fish_root.addChild(fish);
+    },
+
+    do_ready_return: function(body){
+        if(body[0] != Response.OK){
+            console.log("do_ready_return fail ...");
+            return;
+        }
+
+        console.log("do_ready_return success ...", body);
+        this.do_ready = true;
     },
 
     on_game_service_handler: function(stype, ctype, body){
-        console.log("body = ", body);
+        // console.log("body = ", body);
         switch(ctype){
             case Cmd.FishGame.ENTER_ZONE:
                 this.enter_zone_return(body);
@@ -221,7 +233,9 @@ cc.Class({
             case Cmd.FishGame.PUT_FISH:
                 this.put_fish_return(body);
                 break;
-                    
+            case Cmd.FishGame.DO_READY:
+                this.do_ready_return(body);
+                break;
         }
     },
 
@@ -229,6 +243,13 @@ cc.Class({
         fish_game.enter_zone(ugame.zid);
 
         this.now_time = 0;
+        this.do_ready = false;
+
+        // 初始化每條路上的陣列
+        this.fish_on_road_set = [];
+        for(var i = 0; i < 16; i ++){
+            this.fish_on_road_set.push(null);
+        }
     },
 
     on_click_quit_room: function(){

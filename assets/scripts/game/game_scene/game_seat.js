@@ -1,4 +1,5 @@
 var ugame = require("ugame");
+var fish_game = require("fish_game");
 
 cc.Class({
     extends: cc.Component,
@@ -35,6 +36,8 @@ cc.Class({
         if(is_self){
             this.uchip.string = "" + uinfo.uchip;
         }
+
+        fish_game.do_ready();
     },
 
     standup_seat: function(is_self){

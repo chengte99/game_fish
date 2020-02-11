@@ -15,8 +15,18 @@ function send_bullet(body){
     ws.send_cmd(Stype.FishGame, Cmd.FishGame.SEND_BULLET, body);
 }
 
+function do_ready(){
+    ws.send_cmd(Stype.FishGame, Cmd.FishGame.DO_READY, null);
+}
+
+function recover_fish(body){
+    ws.send_cmd(Stype.FishGame, Cmd.FishGame.RECOVER_FISH, body);
+}
+
 module.exports = {
     enter_zone: enter_zone,
     quit_zone: quit_zone,
     send_bullet: send_bullet,
+    do_ready: do_ready,
+    recover_fish: recover_fish,
 };
