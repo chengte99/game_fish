@@ -22,6 +22,7 @@ var Cmd = {
         PUT_FISH: 9,
         DO_READY: 10,
         RECOVER_FISH: 11,
+        RECONNECT: 12,
     }
 }
 

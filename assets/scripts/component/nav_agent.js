@@ -51,7 +51,7 @@ cc.Class({
     },
 
     prepare_run_road: function(body){
-        console.log("prepare_run_road ...");
+        // console.log("prepare_run_road ...");
 
         var fish_map = cc.find(this.map_path);
         this.map = fish_map.getComponent("fish_map");
@@ -131,8 +131,9 @@ cc.Class({
 
     over_winsize: function(){
         var fish = this.node.getComponent("fish");
-        fish.remove_cannon_target();
-        this.node.removeFromParent();
+        fish.send_dead_msg(-1); // 系統死亡
+        // fish.remove_cannon_target();
+        // this.node.removeFromParent();
     },
 
     position_after_time: function(dt){

@@ -52,7 +52,7 @@ cc.Class({
 
     enter_zone_return: function(status){
         if(status != Response.OK){
-            console.log("enter_zone_return fail ...");
+            console.log("enter_zone_return fail ...", status);
             return;
         }
 
@@ -61,7 +61,7 @@ cc.Class({
 
     user_quit_return: function(status){
         if(status != Response.OK){
-            console.log("user_quit_return fail ...");
+            console.log("user_quit_return fail ...", status);
             return;
         }
 
@@ -73,7 +73,7 @@ cc.Class({
 
     enter_room_return: function(ret){
         if(ret[0] != Response.OK){
-            console.log("enter_room_return fail ...");
+            console.log("enter_room_return fail ...", ret[0]);
             return;
         }
 
@@ -83,7 +83,7 @@ cc.Class({
 
     exit_room_return: function(status){
         if(status != Response.OK){
-            console.log("exit_room_return fail ...");
+            console.log("exit_room_return fail ...", status);
             return;
         }
 
@@ -93,7 +93,7 @@ cc.Class({
 
     sitdown_return: function(ret){
         if(ret[0] != Response.OK){
-            console.log("sitdown_return fail ...");
+            console.log("sitdown_return fail ...", ret[0]);
             return;
         }
 
@@ -110,7 +110,7 @@ cc.Class({
             uvip: ugame.user_game_info.uvip,
         }
 
-        this.seat_A.sitdown_seat(uinfo, true);
+        this.seat_A.sitdown_seat(uinfo, true, false);
 
         // this.scheduleOnce(function(){
         //     this.create_fish();
@@ -119,7 +119,7 @@ cc.Class({
 
     standup_return: function(ret){
         if(ret[0] != Response.OK){
-            console.log("standup_return fail ...");
+            console.log("standup_return fail ...", ret[0]);
             return;
         }
 
@@ -127,7 +127,7 @@ cc.Class({
         if(ret[1] == ugame.seat_id){
             ugame.seat_id = -1;
             this.seat_A.standup_seat(true);
-            this.cancel_auto_foucs();
+            this.reset_seat_A_cannon();
         }else{
             this.seat_B.standup_seat(false);
             this.reset_seat_B_cannon();
@@ -145,15 +145,16 @@ cc.Class({
             uface: ret[3],
             uchip: ret[4],
             uexp: ret[5],
-            uvip: ret[6]
+            uvip: ret[6],
+            state: ret[7]
         }
 
-        this.seat_B.sitdown_seat(uinfo, false);
+        this.seat_B.sitdown_seat(uinfo, false, false);
     },
 
     send_bullet_return: function(ret){
         if(ret[0] != Response.OK){
-            console.log("send_bullet_return fail ...");
+            console.log("send_bullet_return fail ...", ret[0]);
             return;
         }
 
@@ -176,31 +177,78 @@ cc.Class({
         }
     },
 
-    put_fish_return: function(body){
-        if(body[0] <= 0){
+    put_fish_return: function(ret){
+        if(ret[0] <= 0){
             console.log("put_fish_return fail ...");
             return;
         }
 
-        console.log("put_fish_return success ...", body);
+        console.log("put_fish_return success ...", ret);
 
-        var fish = cc.instantiate(this.fish_prefabs[body[0] - 1]);
+        var fish = cc.instantiate(this.fish_prefabs[ret[0] - 1]);
         // 將魚node存到陣列內
-        this.fish_on_road_set[body[3]] = fish;
+        this.fish_on_road_set[ret[3]] = fish;
 
         var fish_com = fish.getComponent("fish");
-        fish_com.init_data(body);
         this.fish_root.addChild(fish);
+        fish_com.init_data(ret);
     },
 
-    do_ready_return: function(body){
-        if(body[0] != Response.OK){
+    do_ready_return: function(ret){
+        if(ret != Response.OK){
             console.log("do_ready_return fail ...");
             return;
         }
 
-        console.log("do_ready_return success ...", body);
+        console.log("do_ready_return success ...");
         this.do_ready = true;
+    },
+
+    recover_fish_return: function(ret){
+        if(ret[0] != Response.OK){
+            console.log("recover_fish_return fail ...");
+            return;
+        }
+
+        console.log("recover_fish_return success ...");
+        
+        var body = {
+            seat_id: ret[1],
+            road_index: ret[2],
+            bonus: ret[3],
+        }
+
+        var fish = this.fish_on_road_set[body.road_index];
+        if(fish){
+            // 如果該畫面上有才執行，因為後來開啟的不會有之前路徑上的魚
+            fish.getComponent("fish").fish_dead(body);
+        }
+    },
+
+    reconnect_return: function(ret){
+        console.log("reconnect_return success ...", ret);
+
+        ugame.seat_id = ret[0];
+        ugame.room_id = ret[2];
+
+        var uinfo = {
+            sv_seat: ugame.seat_id,
+            unick: ugame.unick,
+            usex: ugame.usex,
+            uface: ugame.uface,
+            uchip: ugame.user_game_info.uchip,
+            uexp: ugame.user_game_info.uexp,
+            uvip: ugame.user_game_info.uvip,
+        }
+
+        // 自己坐下
+        this.seat_A.sitdown_seat(uinfo, true, true);
+        this.do_ready = true;
+
+        // 對方坐下
+        // console.log("arrived_data =", ret[1]);
+        var arrived_data = ret[1][0];
+        this.user_arrived_return(arrived_data);
     },
 
     on_game_service_handler: function(stype, ctype, body){
@@ -236,6 +284,12 @@ cc.Class({
             case Cmd.FishGame.DO_READY:
                 this.do_ready_return(body);
                 break;
+            case Cmd.FishGame.RECOVER_FISH:
+                this.recover_fish_return(body);
+                break;
+            case Cmd.FishGame.RECONNECT:
+                this.reconnect_return(body);
+                break;
         }
     },
 
@@ -256,7 +310,7 @@ cc.Class({
         fish_game.quit_zone();
     },
 
-    cancel_auto_foucs: function(){
+    reset_seat_A_cannon: function(){
         this.seat_A_cannon.target = null;
         this.seat_A_cannon.node.rotation = 0;
     },

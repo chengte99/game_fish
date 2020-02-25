@@ -66,6 +66,8 @@ cc.Class({
 
         this.level += 1;
         this.node.getComponent(cc.Sprite).spriteFrame = this.idle_sp[this.level - 1];
+        this.node.scaleX = 0.8;
+        this.node.scaleY = 0.8;
     },
 
     downgrade: function(){
@@ -75,6 +77,8 @@ cc.Class({
 
         this.level -= 1;
         this.node.getComponent(cc.Sprite).spriteFrame = this.idle_sp[this.level - 1];
+        this.node.scaleX = 1;
+        this.node.scaleY = 1;
     },
 
     shoot_target: function(body){

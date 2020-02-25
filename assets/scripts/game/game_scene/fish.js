@@ -24,7 +24,8 @@ cc.Class({
 
         seat_A_path: "Canvas/seat_A",
         seat_B_path: "Canvas/seat_B",
-        cannon_path: "Canvas/cannon_root/fort_0",
+        cannon_A_path: "Canvas/cannon_root/fort_0",
+        cannon_B_path: "Canvas/cannon_root/fort_1",
         health: 100,
     },
 
@@ -34,12 +35,15 @@ cc.Class({
         this.game_scene = cc.find("Canvas").getComponent("game_scene");
 
         this.seat_A = cc.find(this.seat_A_path);
-        this.cannon = cc.find(this.cannon_path);
-        this.cannon_m = this.cannon.getComponent("cannon");
+        this.seat_B = cc.find(this.seat_B_path);
+        this.cannon_A = cc.find(this.cannon_A_path);
+        this.cannon_B = cc.find(this.cannon_B_path);
+        this.cannon_A_m = this.cannon_A.getComponent("cannon");
+        this.cannon_B_m = this.cannon_B.getComponent("cannon");
 
         this.node.on(cc.Node.EventType.TOUCH_START, function(e){
             if(this.game_scene.do_ready){
-                this.cannon_m.target = this.node;
+                this.cannon_A_m.target = this.node;
             }
         }, this);
 
@@ -72,18 +76,31 @@ cc.Class({
     },
 
     remove_cannon_target: function(){
-        if(this.cannon_m.target == this.node){
-            this.cannon_m.target = null;
-            this.cannon_m.node.rotation = 0;
+        // 自己砲塔歸位
+        if(this.cannon_A_m.target == this.node){
+            this.cannon_A_m.target = null;
+            this.cannon_A_m.node.rotation = 0;
+            // console.log("remove_cannon_target ...");
+        }
+    
+        // 對方砲塔歸位
+        if(this.cannon_B_m.target == this.node){
+            this.cannon_B_m.target = null;
+            this.cannon_B_m.node.rotation = 180;
             // console.log("remove_cannon_target ...");
         }
     },
 
-    fish_dead: function(bullet_info){
-        if(bullet_info.sv_seat == ugame.seat_id){
-            this.seat_A.getComponent("game_seat").update_uchip(this.health);
+    fish_dead: function(body){
+        if(body.seat_id != -1){
+            // 非系統死亡
+            if(body.seat_id == ugame.seat_id){
+                this.seat_A.getComponent("game_seat").update_uchip(body.bonus);
+            }else{
+                this.seat_B.getComponent("game_seat").update_uchip(body.bonus);
+            }
         }
-
+        
         this.state = STATE.DEAD;
         this.remove_cannon_target();
 
@@ -93,6 +110,17 @@ cc.Class({
         this.health_progress.node.active = false
         this.node.active = false;
         this.node.removeFromParent();
+    },
+
+    send_dead_msg: function(sv_seat){
+        var body = {
+            0: this.fish_id,
+            1: this.health,
+            2: this.road_index,
+            3: this.inroom_uid,
+            4: sv_seat
+        }
+        fish_game.recover_fish(body);
     },
 
     on_hit_from_bullet: function(other){
@@ -110,14 +138,7 @@ cc.Class({
 
         if(this.now_health <= 0){
             // 通知server該魚已死
-            var body = {
-                0: this.fish_id,
-                1: this.health,
-                2: this.road_index,
-                3: this.inroom_uid,
-                4: bullet_info.sv_seat
-            }
-            fish_game.recover_fish(body);
+            this.send_dead_msg(bullet_info.sv_seat);
             
             // this.fish_dead(bullet_info);
         }

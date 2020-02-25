@@ -29,24 +29,20 @@ cc.Class({
         
     },
 
-    sitdown_seat: function(uinfo, is_self){
+    sitdown_seat: function(uinfo, is_self, is_reconnect){
         this.unick.string = "" + uinfo.unick;
         this.uvip.string = "LV: " + uinfo.uvip;
-        
-        if(is_self){
-            this.uchip.string = "" + uinfo.uchip;
-        }
+        this.uchip.string = "" + uinfo.uchip;
 
-        fish_game.do_ready();
+        if(is_self && !is_reconnect){
+            fish_game.do_ready();
+        }
     },
 
     standup_seat: function(is_self){
         this.unick.string = "";
         this.uvip.string = "LV: ";
-        
-        if(is_self){
-            this.uchip.string = "";
-        }
+        this.uchip.string = "";
     },
 
     update_uchip: function(coin){
