@@ -174,6 +174,8 @@ cc.Class({
             this.seat_A_cannon.prepare_to_shoot(bullet_info);
         }else{
             console.log("對手發的");
+            // this.seat_B.update_uchip(bullet_info.cost);
+            // this.seat_B_cannon.prepare_to_shoot(bullet_info);
         }
     },
 

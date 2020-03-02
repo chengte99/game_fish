@@ -76,24 +76,26 @@ cc.Class({
     },
 
     hit_finished: function(){
-        this.node.removeFromParent();
+        // this.node.removeFromParent();
 
         // this.node.active = true;
-        // this.node.scaleX = 0.3;
-        // this.node.scaleY = 0.3;
-        // this.frame_anim.sprite_frames = this.boom_anim_sp;
-        // this.frame_anim.duration = this.boom_anim_duration;
-        // this.frame_anim.play_once(function(){
-        //     this.node.active = false;
-        //     this.node.removeFromParent();
-        // });
+        this.node.scaleX = 0.3;
+        this.node.scaleY = 0.3;
+        this.frame_anim.sprite_frames = this.boom_anim_sp;
+        this.frame_anim.duration = this.boom_anim_duration;
+        this.frame_anim.play_once(function(){
+            this.node.active = false;
+            this.node.removeFromParent();
+        });
     },
 
     onCollisionEnter: function(other, self){
         // console.log("bullet hit fish ...", other, self);
 
+        this.node.getComponent(cc.PolygonCollider).active = false;
+
         this.is_shoot = false;
-        this.node.active = false;
+        // this.node.active = false;
         this.frame_anim.stop_anim();
     },
 
