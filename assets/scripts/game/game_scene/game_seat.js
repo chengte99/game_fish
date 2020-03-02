@@ -45,10 +45,11 @@ cc.Class({
         this.uchip.string = "";
     },
 
-    update_uchip: function(coin){
-        // console.log("update_uchip ...", coin);
-        ugame.user_game_info.uchip += coin;
-        this.uchip.string = "" + ugame.user_game_info.uchip;
+    update_uchip: function(uchip, is_self){
+        if(is_self){
+            ugame.user_game_info.uchip = uchip;
+        }
+        this.uchip.string = "" + uchip;
     },
 
     // update (dt) {},

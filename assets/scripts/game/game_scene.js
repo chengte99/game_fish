@@ -163,19 +163,23 @@ cc.Class({
         var bullet_info = {
             sv_seat: ret[1],
             level: ret[2],
-            cost: ret[3],
+            uchip: ret[3],
             damage: ret[4],
             speed: ret[5],
         }
 
         if(bullet_info.sv_seat == ugame.seat_id){
             // 自己發送的
-            this.seat_A.update_uchip(bullet_info.cost);
+            this.seat_A.update_uchip(bullet_info.uchip, true);
             this.seat_A_cannon.prepare_to_shoot(bullet_info);
         }else{
-            console.log("對手發的");
-            // this.seat_B.update_uchip(bullet_info.cost);
-            // this.seat_B_cannon.prepare_to_shoot(bullet_info);
+            console.log("對手發的 ...", bullet_info);
+            var fish_road_index = ret[6];
+            if(this.fish_on_road_set[fish_road_index]){
+                this.seat_B_cannon.target = this.fish_on_road_set[fish_road_index];
+                this.seat_B.update_uchip(bullet_info.uchip, false);
+                this.seat_B_cannon.prepare_to_shoot(bullet_info);
+            }
         }
     },
 
@@ -217,7 +221,7 @@ cc.Class({
         var body = {
             seat_id: ret[1],
             road_index: ret[2],
-            bonus: ret[3],
+            uchip: ret[3],
         }
 
         var fish = this.fish_on_road_set[body.road_index];
@@ -249,8 +253,10 @@ cc.Class({
 
         // 對方坐下
         // console.log("arrived_data =", ret[1]);
-        var arrived_data = ret[1][0];
-        this.user_arrived_return(arrived_data);
+        if(ret[1].length > 0){
+            var arrived_data = ret[1][0];
+            this.user_arrived_return(arrived_data);
+        }
     },
 
     on_game_service_handler: function(stype, ctype, body){
@@ -358,7 +364,8 @@ cc.Class({
             this.now_time = 0;
             fish_game.send_bullet({
                 0: ugame.seat_id,
-                1: this.seat_A_cannon.level
+                1: this.seat_A_cannon.level,
+                2: this.seat_A_cannon.target.getComponent("fish").road_index
             });
         }
     },

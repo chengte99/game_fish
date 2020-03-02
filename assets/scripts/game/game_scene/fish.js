@@ -95,9 +95,9 @@ cc.Class({
         if(body.seat_id != -1){
             // 非系統死亡
             if(body.seat_id == ugame.seat_id){
-                this.seat_A.getComponent("game_seat").update_uchip(body.bonus);
+                this.seat_A.getComponent("game_seat").update_uchip(body.uchip);
             }else{
-                this.seat_B.getComponent("game_seat").update_uchip(body.bonus);
+                this.seat_B.getComponent("game_seat").update_uchip(body.uchip);
             }
         }
         
@@ -132,8 +132,10 @@ cc.Class({
         var bullet_info = bullet_com.get_bullet_info();
         // console.log("bullet_info ...", bullet_info);
 
-        this.now_health -= bullet_info.damage;
-        this.health_progress.progress = this.now_health / this.health;
+        if(bullet_info.sv_seat == ugame.seat_id){
+            this.now_health -= bullet_info.damage;
+            this.health_progress.progress = this.now_health / this.health;
+        }
         bullet_com.hit_finished();
 
         if(this.now_health <= 0){

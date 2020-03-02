@@ -92,7 +92,7 @@
         "__id__": 3
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 1,
     "_components": [
       {
@@ -388,7 +388,8 @@
     },
     "seat_A_path": "Canvas/seat_A",
     "seat_B_path": "Canvas/seat_B",
-    "cannon_path": "Canvas/cannon_root/fort_0",
+    "cannon_A_path": "Canvas/cannon_root/fort_0",
+    "cannon_B_path": "Canvas/cannon_root/fort_1",
     "health": 60,
     "_id": ""
   },
