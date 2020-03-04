@@ -22,6 +22,13 @@ cc.Class({
             type: cc.ProgressBar
         },
 
+        coin_anim_sp: {
+            default: [],
+            type: cc.SpriteFrame
+        },
+
+        coin_anim_duration: 0.1,
+
         seat_A_path: "Canvas/seat_A",
         seat_B_path: "Canvas/seat_B",
         cannon_A_path: "Canvas/cannon_root/fort_0",
@@ -108,8 +115,17 @@ cc.Class({
         nav_agent.is_walking = false;
 
         this.health_progress.node.active = false
-        this.node.active = false;
-        this.node.removeFromParent();
+
+        this.frame_anim.stop_anim();
+        this.frame_anim.sprite_frames = this.coin_anim_sp;
+        this.frame_anim.duration = this.coin_anim_duration;
+        this.frame_anim.play_once(function(){
+            this.node.active = false;
+            this.node.removeFromParent();
+        });
+        
+        // this.node.active = false;
+        // this.node.removeFromParent();
     },
 
     send_dead_msg: function(sv_seat){
@@ -136,7 +152,8 @@ cc.Class({
             this.now_health -= bullet_info.damage;
             this.health_progress.progress = this.now_health / this.health;
         }
-        bullet_com.hit_finished();
+        var pos = this.node.getPosition()
+        bullet_com.hit_finished(pos);
 
         if(this.now_health <= 0){
             // 通知server該魚已死
@@ -151,7 +168,8 @@ cc.Class({
 
         if(this.state == STATE.DEAD){
             var bullet_com = other.getComponent("bullet");
-            bullet_com.hit_finished();
+            var pos = this.node.getPosition();
+            bullet_com.hit_finished(pos);
             return;
         }
 

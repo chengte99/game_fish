@@ -374,6 +374,39 @@
     "health_progress": {
       "__id__": 7
     },
+    "coin_anim_sp": [
+      {
+        "__uuid__": "94d6ebf8-b478-4ff4-985e-9e25eb4c3e70"
+      },
+      {
+        "__uuid__": "4542d979-7b50-41ee-82d8-360d75a39f98"
+      },
+      {
+        "__uuid__": "1d82a595-825a-4af0-b379-c88c1e5e9392"
+      },
+      {
+        "__uuid__": "7875facf-e000-401e-9514-3bf83a2718a9"
+      },
+      {
+        "__uuid__": "2c78c20c-d3d2-4359-8c31-7e18bdf7e6cb"
+      },
+      {
+        "__uuid__": "6853f052-555f-4b29-82a1-c26ff0ebc46a"
+      },
+      {
+        "__uuid__": "7855ddf0-ffea-4cd9-86f6-a73b127d7739"
+      },
+      {
+        "__uuid__": "a185a155-3455-4dda-a0db-4e95044ea3fc"
+      },
+      {
+        "__uuid__": "90559bd0-b777-4bc7-8e0c-0024e802c5bd"
+      },
+      {
+        "__uuid__": "c69832c1-5df8-4f70-ab66-6e5236667974"
+      }
+    ],
+    "coin_anim_duration": 0.05,
     "seat_A_path": "Canvas/seat_A",
     "seat_B_path": "Canvas/seat_B",
     "cannon_A_path": "Canvas/cannon_root/fort_0",

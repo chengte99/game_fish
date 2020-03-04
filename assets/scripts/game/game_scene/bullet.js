@@ -75,10 +75,14 @@ cc.Class({
         }
     },
 
-    hit_finished: function(){
+    hit_finished: function(pos){
         // this.node.removeFromParent();
 
         // this.node.active = true;
+        
+        this.node.x = pos.x;
+        this.node.y = pos.y;        
+
         this.node.scaleX = 0.3;
         this.node.scaleY = 0.3;
         this.frame_anim.sprite_frames = this.boom_anim_sp;
