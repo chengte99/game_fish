@@ -13,6 +13,7 @@ var fish_game = require("fish_game");
 var Cmd = require("Cmd");
 var Response = require("Response");
 var ugame = require("ugame");
+var sound_manager = require("sound_manager");
 
 cc.Class({
     extends: cc.Component,
@@ -57,7 +58,10 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        
+
+        // 播放背景音乐;
+        sound_manager.play_music("res/sounds/music_bgm01.mp3", true);
+        // end
     },
 
     start () {
@@ -68,6 +72,7 @@ cc.Class({
 
     junior_enter: function(){
         console.log("junior_enter");
+        sound_manager.play_effect("res/sounds/touch_effects01.mp3");
         this.waitConnection.active = true;
 
         ugame.save_zid(1);
@@ -76,6 +81,7 @@ cc.Class({
 
     senior_enter: function(){
         console.log("senior_enter");
+        sound_manager.play_effect("res/sounds/touch_effects01.mp3");
         this.waitConnection.active = true;
 
         ugame.save_zid(2);

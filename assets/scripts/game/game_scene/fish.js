@@ -1,5 +1,6 @@
 var ugame = require("ugame");
 var fish_game = require("fish_game");
+var sound_manager = require("sound_manager");
 
 var STATE = {
     ALIVE: 0,
@@ -101,6 +102,8 @@ cc.Class({
     fish_dead: function(body){
         if(body.seat_id != -1){
             // 非系統死亡
+            sound_manager.play_effect("res/sounds/coin_effects.mp3");
+
             if(body.seat_id == ugame.seat_id){
                 this.seat_A.getComponent("game_seat").update_uchip(body.uchip);
             }else{

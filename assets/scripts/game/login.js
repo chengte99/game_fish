@@ -13,6 +13,7 @@ var game_system = require("game_system");
 var Cmd = require("Cmd");
 var Response = require("Response");
 var ugame = require("ugame");
+var sound_manager = require("sound_manager");
 
 cc.Class({
     extends: cc.Component,
@@ -47,6 +48,10 @@ cc.Class({
             2: this.on_auth_service_handler.bind(this),
             3: this.on_game_system_service_handler.bind(this),
         });
+
+        // 播放背景音乐;
+        sound_manager.play_music("res/sounds/music_bgm01.mp3", true);
+        // end
     },
 
     start () {
@@ -109,12 +114,14 @@ cc.Class({
     },
 
     on_click_quest_login: function(){
+        sound_manager.play_effect("res/sounds/touch_effects01.mp3");
+
         this.wait_windos.active = true;
         auth.quest_login();
     },
 
     on_click_weixin_login: function(){
-
+        sound_manager.play_effect("res/sounds/touch_effects01.mp3");
     },
 
     // update (dt) {},

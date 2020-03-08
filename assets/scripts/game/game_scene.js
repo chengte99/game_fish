@@ -3,9 +3,9 @@ var ugame = require("ugame");
 var fish_game = require("fish_game");
 var Cmd = require("Cmd");
 var Response = require("Response");
-
 var game_seat = require("game_seat");
 var cannon = require("cannon");
+var sound_manager = require("sound_manager");
 
 cc.Class({
     extends: cc.Component,
@@ -48,6 +48,8 @@ cc.Class({
         ws.register_serivces_handler({
             4: this.on_game_service_handler.bind(this),
         });
+
+        sound_manager.play_music("res/sounds/game_music01.mp3", true);
     },
 
     enter_zone_return: function(status){
