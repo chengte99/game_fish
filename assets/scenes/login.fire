@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.508,
-      "y": 0.508,
+      "x": 0.46745532651743676,
+      "y": 0.46745532651743676,
       "z": 1
     },
     "_quat": {
@@ -91,6 +91,9 @@
       },
       {
         "__id__": 38
+      },
+      {
+        "__id__": 39
       }
     ],
     "_prefab": null,
@@ -1629,5 +1632,18 @@
       "__id__": 26
     },
     "_id": "50Kxdhfv5CPIgfHjlR1GIy"
+  },
+  {
+    "__type__": "b80cedUn5hJmId9oej9vlS1",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "is_proto_json": true,
+    "is_release": true,
+    "release_url": "http://www.yuhaolu.cn:10001",
+    "_id": "53MDHRws1HZ5ouoOAYGeFU"
   }
 ]

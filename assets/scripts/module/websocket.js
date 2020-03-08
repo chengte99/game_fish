@@ -73,7 +73,7 @@ var websocket = {
     },
 }
 
-websocket.connect("ws://127.0.0.1:6081/ws", proto_man.PROTO_JSON);
+// websocket.connect("ws://127.0.0.1:6081/ws", proto_man.PROTO_JSON);
 // websocket.connect("ws://127.0.0.1:6081/ws", proto_man.PROTO_BUF);
 
 module.exports = websocket;
