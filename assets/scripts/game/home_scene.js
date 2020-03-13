@@ -39,11 +39,6 @@ cc.Class({
             type: cc.Label
         },
 
-        user_id: {
-            default: null,
-            type: cc.Label
-        },
-
         user_gold: {
             default: null,
             type: cc.Label
