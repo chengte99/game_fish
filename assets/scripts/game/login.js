@@ -55,6 +55,8 @@ cc.Class({
     },
 
     start () {
+        console.log(cc.winSize.width, cc.winSize.height);
+        
         this.wait_windos.active = false;
         // var data = {
         //     uname: "大凱文",

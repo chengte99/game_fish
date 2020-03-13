@@ -60,6 +60,8 @@ cc.Class({
     },
 
     start () {
+        console.log(cc.winSize.width, cc.winSize.height);
+
         this.waitConnection.active = false;
         this.user_nick.string = "" + ugame.unick;
         this.user_gold.string = "" + ugame.user_game_info.uchip;
