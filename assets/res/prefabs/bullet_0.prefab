@@ -8,7 +8,8 @@
       "__id__": 1
     },
     "optimizationPolicy": 0,
-    "asyncLoadAssets": false
+    "asyncLoadAssets": false,
+    "readonly": false
   },
   {
     "__type__": "cc.Node",
@@ -17,7 +18,6 @@
     "_parent": null,
     "_children": [],
     "_active": true,
-    "_level": 1,
     "_components": [
       {
         "__id__": 2
@@ -50,29 +50,32 @@
       "x": 0.5,
       "y": 0.5
     },
-    "_position": {
+    "_trs": {
+      "__type__": "TypedArray",
+      "ctor": "Float64Array",
+      "array": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "_eulerAngles": {
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
       "z": 0
     },
-    "_scale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_rotationX": 0,
-    "_rotationY": 0,
-    "_quat": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
     "_skewX": 0,
     "_skewY": 0,
+    "_is3DNode": false,
+    "_groupIndex": 2,
     "groupIndex": 2,
     "_id": ""
   },
@@ -84,6 +87,11 @@
       "__id__": 1
     },
     "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
@@ -100,105 +108,9 @@
     "_fillStart": 0,
     "_fillRange": 0,
     "_isTrimmedMode": true,
-    "_state": 0,
     "_atlas": {
       "__uuid__": "eb1e5322-9080-4a43-b638-c06498a36c20"
     },
-    "_id": ""
-  },
-  {
-    "__type__": "cf9870v0y5IoK+4EsC6Gso0",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "anim_sp": [
-      {
-        "__uuid__": "809fff29-27ba-4443-bb60-68fcdd099235"
-      },
-      {
-        "__uuid__": "b4d31460-b04d-4294-9ce0-422868d14b54"
-      },
-      {
-        "__uuid__": "ee5b1309-51ec-40c6-a098-506eeddf072e"
-      },
-      {
-        "__uuid__": "45469966-b3ee-44c5-95cb-ff34d187d5c3"
-      },
-      {
-        "__uuid__": "29a2e209-83e0-4967-89b4-7318cb40aac0"
-      },
-      {
-        "__uuid__": "5ee99964-41eb-4386-8fb8-3020b1b86f1c"
-      },
-      {
-        "__uuid__": "c7c698e8-b160-4fad-a0d0-0edc2d0826ff"
-      },
-      {
-        "__uuid__": "c60fc802-9a35-48a3-9990-a502d6d1b24f"
-      },
-      {
-        "__uuid__": "b86b92cc-a9fe-4092-9085-e34431e6102a"
-      },
-      {
-        "__uuid__": "077ce362-17dd-4cb9-a115-0ed312ba2232"
-      }
-    ],
-    "anim_duration": 0.1,
-    "boom_anim_sp": [
-      {
-        "__uuid__": "aaf49c3a-66fb-4e6e-b35c-4ed4c80619ba"
-      },
-      {
-        "__uuid__": "eaf1015c-b6a7-48a3-ae67-5bd890bdb994"
-      },
-      {
-        "__uuid__": "654eb9d7-e29c-4c0f-a24a-af3e66dc00ff"
-      },
-      {
-        "__uuid__": "cd8c3528-a587-41e7-9b21-d60296f1773f"
-      },
-      {
-        "__uuid__": "54d828b6-a6c7-4c55-b7bf-2796a5ab7c70"
-      },
-      {
-        "__uuid__": "df42fd2a-06de-4e6f-808c-340bee7110c9"
-      },
-      {
-        "__uuid__": "40812ea7-e44d-48d6-b93c-635227275928"
-      },
-      {
-        "__uuid__": "6c6ca73b-cb1f-4cec-a67a-2ce72267b049"
-      },
-      {
-        "__uuid__": "b4d2bd15-ddde-455a-837b-80a27d3bf579"
-      },
-      {
-        "__uuid__": "e01945de-3082-4553-9104-9a9dc2cf13d1"
-      },
-      {
-        "__uuid__": "0780bf9b-9ce6-4c3e-8a62-769ad2da4ac8"
-      },
-      {
-        "__uuid__": "2641703e-e272-4b40-9640-08bcf8d24cad"
-      },
-      {
-        "__uuid__": "1c305ea8-276d-4e80-b51a-c07d1d1236b1"
-      },
-      {
-        "__uuid__": "45997d59-df41-4e04-889c-1de76337c1ae"
-      },
-      {
-        "__uuid__": "019bdb8b-4d48-4e8d-af28-db50b13a9146"
-      }
-    ],
-    "boom_anim_duration": 0.01,
-    "degree": 45,
-    "speed": 400,
-    "damage": 2,
-    "cost": 10,
     "_id": ""
   },
   {
@@ -247,6 +159,21 @@
         "y": 50.4
       }
     ],
+    "_id": ""
+  },
+  {
+    "__type__": "77c845cf8lNs7k6cdLd1UxO",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "anim_sp": [],
+    "anim_duration": 0.1,
+    "boom_anim_sp": [],
+    "boom_anim_duration": 0.1,
+    "degree": 45,
     "_id": ""
   },
   {
